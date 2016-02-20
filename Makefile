@@ -104,11 +104,11 @@ LIBUV_VER=libuv-v1.7.5
 LIBUV_CONFIGURE_OPTIONS=CC=$(CC)
 
 # NOTFORCHECKIN - restore -O3
-# 	-DGHETTO \
 #   -DHUSH
 CFLAGS+= $(COSFLAGS) -ffast-math \
 	-funsigned-char \
 	-I/usr/local/include \
+  -DGHETTO \
 	$(OPTLOCALIFLAGS) \
 	$(OPENSSLIFLAGS) \
 	$(CURLINC) \
