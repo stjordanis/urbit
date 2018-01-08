@@ -21,7 +21,7 @@ install:
   - cd ..
 
 script:
-  - meson . ./build --buildtype=debugoptimized -Dgc=true -Dprof=true
+  - meson . ./build -Db_sanitize_address --buildtype=debugoptimized -Dgc=true -Dprof=true
   - cd ./build
   - ninja
   - ninja test
