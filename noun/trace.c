@@ -3,7 +3,9 @@
 ** This file is in the public domain.
 */
 #include "all.h"
+
 #include <pthread.h>
+#include <stdio.h>
 
 /* u3t_push(): push on trace stack.
 */
@@ -332,6 +334,34 @@ u3_term_tape(u3_noun tep);
 extern void
 u3_term_wall(u3_noun wol);
 
+extern void
+u3_term_tape_to(FILE *fil_f, u3_noun tep);
+
+extern FILE* u3_unix_open_eve(c3_c* nom);
+
+/* _even_wall(): dump a wall for event.
+*/
+static void
+_even_wall(u3_atom eve, u3_noun wol)
+{
+  c3_c  nom[128] = {0};
+  u3r_bytes(0, 127, (c3_y*)&nom, eve);
+
+  FILE* fil_f = u3_unix_open_eve(nom);
+  u3_noun wal = wol;
+
+  while ( u3_nul != wal ) {
+    u3_term_tape_to(fil_f, u3k(u3h(wal)));
+
+    putc('\n', fil_f);
+
+    wal = u3t(wal);
+  }
+  fclose(fil_f);
+
+  u3z(wol);
+}
+
 /* u3t_print_steps: print step counter.
 */
 void
@@ -365,21 +395,22 @@ u3t_print_steps(c3_c* cap_c, c3_d sep_d)
 /* u3t_damp(): print and clear profile data.
 */
 void
-u3t_damp(void)
+u3t_damp(u3_atom eve)
 {
-  fprintf(stderr, "\r\n");
+//   fprintf(stderr, "\r\n");
 
   if ( 0 != u3R->pro.day ) {
     u3_noun yot = u3A->yot; u3A->yot = u3_nul;
     u3_noun wol = u3do("pi-tell", u3R->pro.day);
-    u3_term_wall(wol);
     u3z(u3A->yot); u3A->yot = yot; //NOCHECKIN haaack to load in new pi-tell
+    
+    _even_wall(wol);
 
-    u3R->pro.day = u3v_do("doss", 0);
+    u3R->pro.day = 0; // u3v_do("doss", 0);
   }
 
-  u3t_print_steps("nocks", u3R->pro.nox_d);
-  u3t_print_steps("cells", u3R->pro.cel_d);
+//   u3t_print_steps("nocks", u3R->pro.nox_d);
+//   u3t_print_steps("cells", u3R->pro.cel_d);
 
   u3R->pro.nox_d = 0;
   u3R->pro.cel_d = 0;

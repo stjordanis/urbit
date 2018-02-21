@@ -1256,6 +1256,16 @@ _unix_sync_ergo(u3_umon* mon_u, u3_noun can)
   u3z(can);
 }
 
+/* u3_unix_open_eve(): append to per-event file
+*/
+FILE*
+u3_unix_open_eve(c3_c *eve){
+  c3_c paf_c[2048];
+  c3_assert('\0' != eve[0]);
+  snprintf(paf_c, 2048, "%s/.urb/eve/%s", u3_Host.dir_c, eve);
+  return fopen(paf_c,"a");
+}
+
 /* u3_unix_ef_ergo(): update filesystem from urbit
 */
 void

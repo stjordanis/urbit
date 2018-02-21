@@ -1544,6 +1544,7 @@ _raft_lame(u3_noun ovo, u3_noun why, u3_noun tan)
 static void
 _raft_punk(u3_noun ovo)
 {
+
 #ifdef GHETTO
   c3_c* txt_c = u3r_string(u3h(u3t(ovo)));
 #endif
@@ -1574,6 +1575,8 @@ _raft_punk(u3_noun ovo)
 #endif
 
   gon = u3m_soft(sec_w, u3v_poke, u3k(ovo));
+
+  u3t_damp(u3h(u3t(ovo)));
 
 #ifdef GHETTO
 #define T_ANSI(x) "\x1b[" x "m"
@@ -1625,6 +1628,7 @@ _raft_punk(u3_noun ovo)
   }
   //  uL(fprintf(uH, "punk oot %s\n", txt_c));
   //  free(txt_c);
+  //
 }
 
 

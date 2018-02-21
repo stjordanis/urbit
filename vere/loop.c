@@ -475,7 +475,7 @@ u3_lo_shut(c3_o inn)
     // u3_lo_grab("lo_exit", u3_none);
     // u3_loom_save(u3A->ent_d);
     // u3_loom_exit();
-    u3t_damp();
+//     u3t_damp();
     u3_lo_exit();
 
     //  save a checkpoint before exiting
@@ -649,7 +649,7 @@ u3_lo_loop()
 
   if ( _(u3_Host.ops_u.tex) ) {
     u3t_boff();
-    u3t_damp();
+//     u3t_damp();
     u3_lo_exit();
 
     fprintf(stderr, "dry run: exit\r\n");
