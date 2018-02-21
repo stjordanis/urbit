@@ -38,6 +38,10 @@ u3t_drop(void)
 extern void
 u3_lo_tank(c3_l tab_l, u3_noun tac);
 
+
+u3_weak
+_t_jet_label(u3a_road* rod_u, u3_noun bat); //REVIEW just reorder prob
+
 /* u3t_slog(): print directly.
 */
 void
@@ -49,7 +53,7 @@ u3t_slog(u3_noun hod)
 #define T_reset T_ANSI("0")
   
   static int old;
-  static struct timeval b4, f2, d0;
+  static struct timeval b4, f2, d0;  //TODO 4 structs per debug level?
   c3_w ms_w;
   c3_w clr_w;
           
@@ -71,6 +75,22 @@ u3t_slog(u3_noun hod)
   old = 1;
 
 #endif
+// show "current" function in ~&
+// #define HINTF
+#ifdef HINTF
+  {
+    for(u3_noun don = u3R->pro.don; u3_nul != don; don = u3t(don)){
+      u3_noun laj = _t_jet_label(u3R, u3h(don));
+      if( u3_none != laj && u3_nul != laj){
+        c3_c* hin_c = u3r_string(u3h(laj)); //REVIEW empty path ever?
+        printf("%-25s\t",hin_c);
+        free(hin_c);
+        break;
+      }
+    }
+  }
+#endif
+  
   if ( c3y == u3du(hod) ) {
     u3_noun pri = u3h(hod);
 
@@ -350,8 +370,10 @@ u3t_damp(void)
   fprintf(stderr, "\r\n");
 
   if ( 0 != u3R->pro.day ) {
+    u3_noun yot = u3A->yot; u3A->yot = u3_nul;
     u3_noun wol = u3do("pi-tell", u3R->pro.day);
     u3_term_wall(wol);
+    u3z(u3A->yot); u3A->yot = yot; //NOCHECKIN haaack to load in new pi-tell
 
     u3R->pro.day = u3v_do("doss", 0);
   }
