@@ -1567,7 +1567,7 @@ _raft_punk(u3_noun ovo)
   }
 
 #ifdef GHETTO
-  struct timeval b4, f2, d0;
+  struct timeval b4, f2, m3, d0, d1;
   gettimeofday(&b4, 0);
   if( c3__belt != u3h(u3t(ovo)) ){
     uL(fprintf(uH, "%%soft %s\n", txt_c));
@@ -1576,22 +1576,28 @@ _raft_punk(u3_noun ovo)
 
   gon = u3m_soft(sec_w, u3v_poke, u3k(ovo));
 
+#ifdef GHETTO
+  gettimeofday(&m3,0);
+#endif
+    
   u3t_damp(u3h(u3t(ovo)));
 
 #ifdef GHETTO
 #define T_ANSI(x) "\x1b[" x "m"
 #define T_color T_ANSI("3%d")
 #define T_reset T_ANSI("0")
-  c3_w ms_w;
+  c3_w ms_w, ms2_w;
   c3_w clr_w;
 
   gettimeofday(&f2, 0);
-  timersub(&f2, &b4, &d0);
+  timersub(&m3, &b4, &d0);
+  timersub(&f2, &m3, &d1);
   ms_w = (d0.tv_sec * 1000) + (d0.tv_usec / 1000);
+  ms2_w = (d1.tv_sec * 1000) + (d1.tv_usec / 1000);
   clr_w = ms_w > 1000 ? 1 : ms_w < 100 ? 2 : 3; //  red, green, yellow
   if(c3__belt != u3h(u3t(ovo)) || clr_w != 2){
-    uL(fprintf(uH, T_color "%%punk %s %4d.%02dms" T_reset "\n",
-                      clr_w, txt_c, ms_w, (int) (d0.tv_usec % 1000) / 10));
+    uL(fprintf(uH, T_color "%%punk %s %4d.%02d" T_reset " + %2dms\n",
+                      clr_w, txt_c, ms_w, (int) (d0.tv_usec % 1000) / 10, ms2_w));
   }
   free(txt_c);
 #endif
