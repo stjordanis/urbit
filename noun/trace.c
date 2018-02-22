@@ -7,6 +7,8 @@
 #include <pthread.h>
 #include <stdio.h>
 
+#define FLAME
+
 /* u3t_push(): push on trace stack.
 */
 void
@@ -120,6 +122,7 @@ u3t_heck(u3_atom cog)
   //  Profile sampling, because it allocates on the home road,
   //  only works on when we're not at home.
   //
+  #ifndef FLAME
   if ( &(u3H->rod_u) != u3R ) {
     u3a_road* rod_u;
  
@@ -133,6 +136,7 @@ u3t_heck(u3_atom cog)
     }
     u3R = rod_u;
   }
+  #endif
 }
 
 /* _t_jet_label():
@@ -238,6 +242,7 @@ _t_samp_process(u3_road* rod_u)
 }
 #endif
 
+
 /* u3t_samp(): sample.
 */
 void
@@ -285,10 +290,14 @@ u3t_samp(void)
       u3_noun lab = _t_samp_process(rod_u);
 
       c3_assert(u3R == &u3H->rod_u);
+    #ifdef FLAME
+      u3R->pro.day = u3dt("pi-noony", mot_l, lab, u3R->pro.day);
+    #else
       if ( 0 == u3R->pro.day ) { 
         u3R->pro.day = u3v_do("doss", 0);
       }
       u3R->pro.day = u3dt("pi-noon", mot_l, lab, u3R->pro.day);
+    #endif
     }
     u3R = rod_u;
   }
@@ -401,10 +410,15 @@ u3t_damp(u3_atom eve)
 
   if ( 0 != u3R->pro.day ) {
     u3_noun yot = u3A->yot; u3A->yot = u3_nul;
+  #ifdef FLAME
+    u3_noun wol = u3do("pi-telly", u3R->pro.day);
+  #else
     u3_noun wol = u3do("pi-tell", u3R->pro.day);
+  #endif
     u3z(u3A->yot); u3A->yot = yot; //NOCHECKIN haaack to load in new pi-tell
     
-    _even_wall(wol);
+//     u3_term_wall(wol);
+    _even_wall(eve,wol);
 
     u3R->pro.day = 0; // u3v_do("doss", 0);
   }
