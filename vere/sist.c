@@ -999,39 +999,9 @@ _sist_rest()
         }
       }
 #endif
-      roe = u3nc(u3ke_cue(ron), roe);
-    }
-    u3A->ent_d = c3_max(las_d + 1ULL, old_d);
-  }
-
-  if ( u3_nul == roe ) {
-    //  Nothing in the log that was not also in the checkpoint.
-    //
-    c3_assert(u3A->ent_d == old_d);
-    if ( las_d + 1 != old_d ) {
-      uL(fprintf(uH, "checkpoint and log disagree! las:%" PRIu64 " old:%" PRIu64 "\n",
-                     las_d + 1, old_d));
-      uL(fprintf(uH, "Some events appear to be missing from the log.\n"
-                     "Please contact the authorities, "
-                     "and do not delete your pier!\n"));
-      u3_lo_bail();
-    }
-  }
-  else {
-    u3_noun rou = roe;
-    c3_w    xno_w;
-
-    //  Execute the fscking things.  This is pretty much certain to crash.
-    //
-    uL(fprintf(uH, "rest: replaying through event %" PRIu64 "\n", las_d));
-    fprintf(uH, "---------------- playback starting----------------\n");
-
-    xno_w = 0;
-    while ( u3_nul != roe ) {
-      u3_noun i_roe = u3h(roe);
-      u3_noun t_roe = u3t(roe);
-      u3_noun now = u3h(i_roe);
-      u3_noun ovo = u3t(i_roe);
+      roe = u3ke_cue(ron);
+      u3_noun now = u3h(roe);
+      u3_noun ovo = u3t(roe);
 
       u3v_time(u3k(now));
       if ( (c3y == u3_Host.ops_u.vno) &&
@@ -1040,26 +1010,14 @@ _sist_rest()
       {
         fprintf(stderr, "replay: skipped veer\n");
       }
-      else if ( c3y == u3_Host.ops_u.fog &&
-                u3_nul == t_roe ) {
-        fprintf(stderr, "replay: -Xwtf, skipped last event\n");
-      }
       else {
         _sist_sing(u3k(ovo));
         fputc('.', stderr);
       }
+      u3z(roe);
 
-      // fprintf(stderr, "playback: sing: %d\n", xno_w));
-
-      roe = t_roe;
-      xno_w++;
-
-      if ( 0 == (xno_w % 1000) ) {
-        uL(fprintf(uH, "{%d}\n", xno_w));
-        // u3_lo_grab("rest", rou, u3_none);
-      }
     }
-    u3z(rou);
+    u3A->ent_d = c3_max(las_d + 1ULL, old_d);
   }
   uL(fprintf(stderr, "\n---------------- playback complete----------------\n"));
 
