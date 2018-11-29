@@ -3,8 +3,8 @@ node_js:
 - 4
 
 env:
-  - CC=clang
-  - ASAN_OPTIONS=protect_shadow_gap=false
+  global:
+    - CC=clang ASAN_OPTIONS=protect_shadow_gap=false
 
 # Uncomment me if this gets annoying
 #
