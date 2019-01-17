@@ -1,3 +1,9 @@
+urbit (0.7-0) unstable; urgency=high
+
+  * XX lotta stuff
+
+ -- Joe Bryan <joe@tlon.io>  Thu, 17 Jan 2019 17:46:58 +0000
+
 urbit (0.6-0) unstable; urgency=high
 
   * Memory-allocation bug fix in _box_slot in Vere. Breaking change.
