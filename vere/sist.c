@@ -1188,6 +1188,7 @@ u3_sist_boot(void)
   if ( c3n == u3_Host.ops_u.nuu ) {
     _sist_rest();
     u3m_reclaim();
+    u3e_save();
     u3_lo_bail();
 
     if ( c3y == u3A->fak ) {
