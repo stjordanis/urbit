@@ -1276,6 +1276,8 @@ u3_unix_ef_ogre(u3_noun mon)
 void
 u3_unix_ef_hill(u3_noun hil)
 {
+  u3z(hil);
+#if 0
   u3_noun mon;
   for ( mon = hil; c3y == u3du(mon); mon = u3t(mon) ) {
     u3_umon* mon_u = _unix_get_mount_point(u3k(u3h(mon)));
@@ -1284,6 +1286,7 @@ u3_unix_ef_hill(u3_noun hil)
   u3z(hil);
   u3_Host.unx_u.dyr = c3y;
   u3_unix_ef_look(c3y);
+#endif
 }
 
 /* u3_unix_io_init(): initialize unix sync.
