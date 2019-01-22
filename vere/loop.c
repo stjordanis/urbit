@@ -174,13 +174,13 @@ _lo_init()
   u3_term_io_init();
   u3a_lop(cod_l);
 
-  cod_l = u3a_lush(c3__http);
-  u3_http_io_init();
-  u3a_lop(cod_l);
-
-  cod_l = u3a_lush(c3__cttp);
-  u3_cttp_io_init();
-  u3a_lop(cod_l);
+//  cod_l = u3a_lush(c3__http);
+//  u3_http_io_init();
+//  u3a_lop(cod_l);
+//
+//  cod_l = u3a_lush(c3__cttp);
+//  u3_cttp_io_init();
+//  u3a_lop(cod_l);
 
   cod_l = u3a_lush(c3__save);
   u3_save_io_init();
@@ -206,9 +206,9 @@ _lo_talk()
   u3_ames_io_talk();
   u3a_lop(cod_l);
 
-  cod_l = u3a_lush(c3__http);
-  u3_http_io_talk();
-  u3a_lop(cod_l);
+//  cod_l = u3a_lush(c3__http);
+//  u3_http_io_talk();
+//  u3a_lop(cod_l);
    
 }
 
@@ -231,13 +231,13 @@ u3_lo_exit(void)
   u3_term_io_exit();
   u3a_lop(cod_l);
 
-  cod_l = u3a_lush(c3__http);
-  u3_http_io_exit();
-  u3a_lop(cod_l);
-
-  cod_l = u3a_lush(c3__cttp);
-  u3_cttp_io_exit();
-  u3a_lop(cod_l);
+//  cod_l = u3a_lush(c3__http);
+//  u3_http_io_exit();
+//  u3a_lop(cod_l);
+//
+//  cod_l = u3a_lush(c3__cttp);
+//  u3_cttp_io_exit();
+//  u3a_lop(cod_l);
 
   cod_l = u3a_lush(c3__save);
   u3_save_io_exit();
@@ -635,7 +635,7 @@ u3_lo_lead(void)
       u3_behn_ef_bake();
     }
 
-    u3_http_ef_bake();
+//    u3_http_ef_bake();
   }
 
   _lo_talk();

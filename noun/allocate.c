@@ -1618,7 +1618,8 @@ u3a_mark_noun(u3_noun som)
 void
 u3a_print_memory(c3_c* cap_c, c3_w wor_w)
 {
-  FILE *fil_f = u3_term_io_hija();
+//  FILE *fil_f = u3_term_io_hija();
+  FILE *fil_f = stderr;
 
   c3_w byt_w = (wor_w * 4);
   c3_w gib_w = (byt_w / 1000000000);
@@ -1641,7 +1642,7 @@ u3a_print_memory(c3_c* cap_c, c3_w wor_w)
       fprintf(fil_f, "%s: B/%d\r\n", cap_c, bib_w);
     }
   }
-  u3_term_io_loja(0);
+//  u3_term_io_loja(0);
 }
 
 /* u3a_sweep(): sweep a fully marked road.
@@ -1714,24 +1715,24 @@ u3a_sweep(void)
             printf("dank %p (%d, %d)\r\n", box_u, box_u->use_w, box_u->eus_w);
           }
           else {
-            printf("weak %p %x (cell) %x (%d, %d)\r\n", 
-                    box_u, 
-                    (u3_noun)u3a_to_pom(u3a_outa(u3a_boxto(box_w))),
-                    ((u3a_noun *)(u3a_boxto(box_w)))->mug_w,
-                    box_u->use_w, box_u->eus_w);
+//            printf("weak %p %x (cell) %x (%d, %d)\r\n", 
+//                    box_u, 
+//                    (u3_noun)u3a_to_pom(u3a_outa(u3a_boxto(box_w))),
+//                    ((u3a_noun *)(u3a_boxto(box_w)))->mug_w,
+//                    box_u->use_w, box_u->eus_w);
             u3a_print_memory("weak (minimum)", box_u->siz_w);
             // u3m_p("weak", u3a_to_pom(u3a_outa(u3a_boxto(box_w))));
           }
           weq_w += box_u->siz_w;
         }
         else {
-          printf("leak %p %x (cell)/%x (%d)\r\n", 
-                  box_u, 
-                  (u3_noun)u3a_to_pom(u3a_outa(u3a_boxto(box_w))),
-                  ((u3a_noun *)(u3a_boxto(box_w)))->mug_w
-                    ? ((u3a_noun *)(u3a_boxto(box_w)))->mug_w
-                    : u3r_mug(u3a_to_pom(u3a_outa(u3a_boxto(box_w)))),
-                  box_u->use_w);
+//          printf("leak %p %x (cell)/%x (%d)\r\n", 
+//                  box_u, 
+//                  (u3_noun)u3a_to_pom(u3a_outa(u3a_boxto(box_w))),
+//                  ((u3a_noun *)(u3a_boxto(box_w)))->mug_w
+//                    ? ((u3a_noun *)(u3a_boxto(box_w)))->mug_w
+//                    : 0,
+//                  box_u->use_w);
           u3a_print_memory("leak (minimum)", box_u->siz_w);
           // u3m_p("leak", u3a_to_pom(u3a_outa(u3a_boxto(box_w))));
           leq_w += box_u->siz_w;
@@ -1751,11 +1752,11 @@ u3a_sweep(void)
       c3_ws use_ws = (c3_ws)box_u->use_w;
 
       if ( use_ws > 0 ) {
-        printf("leak %p %x\r\n",
-                box_u,
-                ((u3a_noun *)(u3a_boxto(box_w)))->mug_w
-                  ? ((u3a_noun *)(u3a_boxto(box_w)))->mug_w
-                  : u3r_mug(u3a_to_pom(u3a_outa(u3a_boxto(box_w)))));
+//        printf("leak %p %x\r\n",
+//                box_u,
+//                ((u3a_noun *)(u3a_boxto(box_w)))->mug_w
+//                  ? ((u3a_noun *)(u3a_boxto(box_w)))->mug_w
+//                  : 0);
         // u3a_print_memory("leak (minimum)", box_u->siz_w);
 
 #if 0
@@ -1814,7 +1815,7 @@ u3a_sweep(void)
 
   c3_assert((pos_w + leq_w + weq_w) == neg_w);
 
-  if ( 0 != leq_w || (0 != weq_w) ) { c3_assert(0); }
+//  if ( 0 != leq_w || (0 != weq_w) ) { c3_assert(0); }
 
   return neg_w;
 }
