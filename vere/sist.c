@@ -1170,6 +1170,8 @@ sist_key(u3_noun des)
 void
 u3_sist_boot(void)
 {
+  u3m_reclaim();
+
   //  iterate entropy
   //
   {
