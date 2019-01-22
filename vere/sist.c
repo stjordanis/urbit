@@ -1172,24 +1172,21 @@ u3_sist_boot(void)
 {
   u3m_reclaim();
 
-  // //  iterate entropy
-  // //
-  // {
-  //   c3_w    eny_w[16];
-  //   u3_noun eny;
+  //  iterate entropy
+  //
+  {
+    c3_w    eny_w[16];
+    u3_noun eny;
 
-  //   c3_rand(eny_w);
-  //   eny = u3i_words(16, eny_w);
+    c3_rand(eny_w);
+    eny = u3i_words(16, eny_w);
 
-  //   u3v_plan(u3nt(u3_blip, c3__arvo, u3_nul), u3nc(c3__wack, u3k(eny)));
-  //   u3z(eny);
-  // }
+    u3v_plan(u3nt(u3_blip, c3__arvo, u3_nul), u3nc(c3__wack, u3k(eny)));
+    u3z(eny);
+  }
 
   if ( c3n == u3_Host.ops_u.nuu ) {
     _sist_rest();
-    u3m_reclaim();
-    u3e_save();
-    u3_lo_bail();
 
     if ( c3y == u3A->fak ) {
       c3_c* who_c = u3r_string(u3dc("scot", 'p', u3k(u3A->own)));
