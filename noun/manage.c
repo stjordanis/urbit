@@ -970,7 +970,7 @@ u3m_soft_top(c3_w    sec_w,                     //  timer seconds
 u3_noun 
 u3m_soft_sure(u3_funk fun_f, u3_noun arg)
 {
-  u3_noun pro, pru = u3m_soft_top(0, (1 << 18), fun_f, arg);
+  u3_noun pro, pru = u3m_soft_top(0, (1 << 16), fun_f, arg);
 
   c3_assert(_(u3du(pru)));
   pro = u3k(u3t(pru));
@@ -1182,7 +1182,7 @@ u3m_soft(c3_w    sec_w,
 {
   u3_noun why;
  
-  why = u3m_soft_top(sec_w, (1 << 20), fun_f, arg);   // 2MB pad
+  why = u3m_soft_top(sec_w, (1 << 16), fun_f, arg);   // 2MB pad
 
   if ( 0 == u3h(why) ) {
     return why;
