@@ -755,11 +755,11 @@ main(c3_i argc, c3_c* argv[])
   {
     c3_i err_i;
 
-    err_i = uv_pipe_init(lup_u, &u3V.inn_u.pyp_u, 0);
+    err_i = uv_pipe_init(lup_u, &u3V.inn_u.pyp_u, 1);
     c3_assert(!err_i);
     uv_pipe_open(&u3V.inn_u.pyp_u, 0);
 
-    err_i = uv_pipe_init(lup_u, &u3V.out_u.pyp_u, 0);
+    err_i = uv_pipe_init(lup_u, &u3V.out_u.pyp_u, 1);
     c3_assert(!err_i);
     uv_pipe_open(&u3V.out_u.pyp_u, 1);
   }

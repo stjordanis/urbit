@@ -23,6 +23,8 @@
 #include "all.h"
 #include "vere/vere.h"
 
+#define LOG(...) fprintf(stderr, __VA_ARGS__)
+
   /*    event handling proceeds on two parallel paths.  on the first
   **    path, the event is processed in the child worker process (serf).
   **    state transitions are as follows:
@@ -1265,8 +1267,10 @@ static void
 _pier_work_poke(void*   vod_p,
                 u3_noun mat)
 {
+  LOG("_pier_work_poke\r\n");
+
   u3_pier* pir_u = vod_p;
-  u3_noun jar    = u3ke_cue(u3k(mat));
+  u3_noun  jar   = u3ke_cue(u3k(mat));
   u3_noun  p_jar, q_jar, r_jar;
 
   if ( c3y != u3du(jar) ) {
@@ -1278,10 +1282,13 @@ _pier_work_poke(void*   vod_p,
     ** (and who we are, if it knows)
     */
     if ( 0 == pir_u->log_u ) {
+      LOG("Waiting for first event from pier (%play)\r\n");
       switch ( u3h(jar) ) {
-        default: goto error;
-
+        default:
+          LOG("Got something besides a %play event");
+          goto error;
         case c3__play: {
+          LOG("%play\r\n");
           c3_d lav_d;
           c3_l mug_l;
 
@@ -1339,10 +1346,12 @@ _pier_work_poke(void*   vod_p,
       }
     }
     else {
+      LOG("Waiting for non-first event from pier\r\n");
       switch ( u3h(jar) ) {
         default: goto error;
 
         case c3__work: {
+          LOG("%work");
           if ( (c3n == u3r_qual(jar, 0, &p_jar, &q_jar, &r_jar)) || 
                (c3n == u3ud(p_jar)) ||
                (u3r_met(6, p_jar) != 1) ||
@@ -1377,6 +1386,7 @@ _pier_work_poke(void*   vod_p,
           break;
         } 
         case c3__done: {
+          LOG("%done");
           if ( (c3n == u3r_qual(jar, 0, &p_jar, &q_jar, &r_jar)) || 
                (c3n == u3ud(p_jar)) ||
                (u3r_met(6, p_jar) != 1) ||
@@ -1435,9 +1445,9 @@ _pier_work_create(u3_pier* pir_u)
     strcpy(pax_c, pir_u->pax_c);
 
     sprintf(key_c, "%" PRIx64 ":%" PRIx64 ":%" PRIx64 ":%" PRIx64 "",
-                   pir_u->key_d[0], 
-                   pir_u->key_d[1], 
-                   pir_u->key_d[2], 
+                   pir_u->key_d[0],
+                   pir_u->key_d[1],
+                   pir_u->key_d[2],
                    pir_u->key_d[3]);
 
     sprintf(wag_c, "%u", pir_u->wag_w);
@@ -1462,7 +1472,7 @@ _pier_work_create(u3_pier* pir_u)
 
     god_u->ops_u.stdio = god_u->cod_u;
     god_u->ops_u.stdio_count = 3;
-   
+
     god_u->ops_u.exit_cb = _pier_work_exit;
     god_u->ops_u.file = arg_c[0];
     god_u->ops_u.args = arg_c;
@@ -1476,7 +1486,7 @@ _pier_work_create(u3_pier* pir_u)
   }
 
   /* start reading from proc
-  */ 
+  */
   {
     god_u->out_u.vod_p = pir_u;
     god_u->out_u.pok_f = _pier_work_poke;
@@ -2066,6 +2076,7 @@ u3_pier_boot(c3_w    wag_w,                 //  config flags
       fprintf(stderr, "boot: ship: %s\r\n", pir_u->who_c);
     }
 
+    LOG("u3r_chubs\r\n");
     u3r_chubs(0, 2, pir_u->who_d, who);
     // u3r_chubs(0, 1, pir_u->tic_d, tic);
     // u3r_chubs(0, 1, pir_u->sec_d, sec);
@@ -2079,15 +2090,18 @@ u3_pier_boot(c3_w    wag_w,                 //  config flags
 
   /* initialize boot i/o
   */
+  LOG("_pier_loop_init_pier\r\n");
   _pier_loop_init_pier(pir_u);
 
   /* initialize polling handle
   */
+  LOG("_pier_prepare_{init,start}\r\n");
   uv_prepare_init(u3_Host.lup_u, &pir_u->pep_u);
   uv_prepare_start(&pir_u->pep_u, _pier_loop_prepare);
 
   /* initialize loop - move to _pier_boot_make().
   */
+  LOG("_pier_loop_init\r\n");
   _pier_loop_init();
 
   /* XX: _pier_loop_exit() should be called somewhere, but is not.

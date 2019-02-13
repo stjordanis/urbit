@@ -36,6 +36,9 @@
 static void
 _newt_consume(u3_moat* mot_u)
 {
+  fprintf(stderr, "ENTER _newt_consume()\r\n");
+  fprintf(stderr, "DEBUG %" PRIu64 "\r\n", mot_u->len_d);
+
   /*  process stray bytes, trying to create a new message
   **  or add a block to an existing one.
   */
@@ -53,8 +56,8 @@ _newt_consume(u3_moat* mot_u)
         met_u->len_d = mot_u->len_d;
         memcpy(met_u->hun_y, mot_u->rag_y, mot_u->len_d);
 
-#if 0
-          fprintf(stderr, 
+#if 1
+          fprintf(stderr,
               "newt: %d: create: msg %p, new block %p, len %"
               PRIu64 ", has %" PRIu64 ", needs %" PRIu64 "\r\n",
               getpid(),
@@ -82,7 +85,7 @@ _newt_consume(u3_moat* mot_u)
         mot_u->rag_y = 0;
       }
       else {
-        /* no message, but enough stray bytes to fill in 
+        /* no message, but enough stray bytes to fill in
         ** a length; collect them and create a message.
         */
         if ( mot_u->len_d >= 8ULL ) {
@@ -96,7 +99,7 @@ _newt_consume(u3_moat* mot_u)
           nel_d |= ((c3_d) mot_u->rag_y[5]) << 40ULL;
           nel_d |= ((c3_d) mot_u->rag_y[6]) << 48ULL;
           nel_d |= ((c3_d) mot_u->rag_y[7]) << 56ULL;
-#if 0
+#if 1
           fprintf(stderr, "newt: %d: parsed length %" PRIu64 "\r\n",
                           getpid(),
                           nel_d);
@@ -115,8 +118,8 @@ _newt_consume(u3_moat* mot_u)
           else {
             /* remove consumed length from stray bytes
             */
-            c3_y* buf_y = c3_malloc(mot_u->len_d); 
-            
+            c3_y* buf_y = c3_malloc(mot_u->len_d);
+
             memcpy(buf_y, mot_u->rag_y + 8, mot_u->len_d);
 
             c3_free(mot_u->rag_y);
@@ -200,12 +203,14 @@ _newt_consume(u3_moat* mot_u)
     */
     break;
   }
+
+  fprintf(stderr, "RETRN _newt_consume()\r\n");
 }
 
 /* _raft_alloc(): libuv-style allocator for raft.
 */
 static void
-_newt_alloc(uv_handle_t* had_u, 
+_newt_alloc(uv_handle_t* had_u,
             size_t len_i,
             uv_buf_t* buf_u)
 {
@@ -230,11 +235,21 @@ _newt_read_cb(uv_stream_t*    str_u,
     mot_u->bal_f(mot_u->vod_p, "stream closed");
   }
   else {
-#if 0
+
+#if 1
     fprintf(stderr, "newt: %d: read %ld\r\n", getpid(), len_i);
 #endif
 
-    if ( mot_u->rag_y ) {
+#if 1
+  fprintf(stderr, "newt: %d: <bytes>", getpid());
+  for ( int i = 0; i < len_i; i++) {
+    if (0 == (i % 16)) fprintf(stderr, "\r\n");
+    fprintf(stderr, "  %02x", (unsigned) buf_u->base[i]);
+  }
+  fprintf(stderr, "\r\nnewt: %d: </bytes>\r\n", getpid());
+#endif
+
+    if ( mot_u->rag_y ) { // grow read buffer by `len_d` bytes
       mot_u->rag_y = c3_realloc(mot_u->rag_y, mot_u->len_d + len_d);
       memcpy(mot_u->rag_y + mot_u->len_d, buf_u->base, len_d);
       c3_free(buf_u->base);
@@ -305,7 +320,6 @@ u3_newt_write(u3_mojo* moj_u,
   c3_y*               buf_y = c3_malloc(len_w + 8);
   struct _u3_write_t* req_u = c3_malloc(sizeof(*req_u));
   uv_buf_t            buf_u;
-  c3_i                err_i;
 
   /* write header; c3_d is futureproofing
   */
@@ -322,15 +336,25 @@ u3_newt_write(u3_mojo* moj_u,
   buf_u.base = (c3_c*) buf_y;
   buf_u.len = len_w + 8;
 
-#if 0
+#if 1
   fprintf(stderr, "newt: %d: write %d\n", getpid(), len_w + 8);
 #endif
-  if ( 0 != (err_i = uv_write((uv_write_t*)req_u,
-                              (uv_stream_t*)&moj_u->pyp_u,
-                              &buf_u,
-                              1,
-                              _newt_write_cb)) )
-  {
+
+#if 1
+  fprintf(stderr, "newt: %d: <bytes>", getpid());
+  for ( int i = 0; i < len_w+8; i++) {
+    if (0 == (i % 16)) fprintf(stderr, "\r\n");
+    fprintf(stderr, "  %02x", (unsigned) buf_u.base[i]);
+  }
+  fprintf(stderr, "\r\nnewt: %d: </bytes>\r\n", getpid());
+#endif
+
+  c3_i err_i = uv_write((uv_write_t*)req_u,
+                        (uv_stream_t*)&moj_u->pyp_u,
+                        &buf_u,
+                        1,
+                        _newt_write_cb);
+  if ( 0 != err_i ) {
     moj_u->bal_f(moj_u, uv_strerror(err_i));
   }
 }
